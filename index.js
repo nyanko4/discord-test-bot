@@ -28,10 +28,10 @@ const commands = [
     .setDescription('挨拶する')
 ].map(cmd => cmd.toJSON());
 
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_APITOKEN);
 
 rest.put(
-  Routes.applicationCommands('YOUR_APP_ID'),
+  Routes.applicationCommands(process.env.APP_ID),
   { body: commands }
 );
 
