@@ -31,7 +31,17 @@ const commands = [
     .setDescription('チンチロ'),
 ].map(cmd => cmd.toJSON());
 
-const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_APITOKEN);
+(async () => {
+  try {
+    await rest.put(
+      Routes.applicationCommands(process.env.APP_ID),
+      { body: commands }
+    );
+    console.log("Slash commands registered");
+  } catch (err) {
+    console.error(err);
+  }
+})();
 
 rest.put(
   Routes.applicationCommands(process.env.APP_ID),
@@ -73,13 +83,15 @@ function judgeChinchiro(a, b, c) {
 }
 
 async function diceRoll(interaction) {
-    const rolls = Array.from(3, () =>
+    const rolls = Array.from({ length: 3 }, () =>
         Math.floor(Math.random() * 6) + 1
     );
 
     result = judgeChinchiro(rolls[0], rolls[1], rolls[2]);
     
-    await interaction.reply(result);
+    await interaction.reply(
+  `出目: ${rolls.join(", ")}\n結果: ${result.role}${result.value ? `（${result.value}）` : ""}`
+);
 }
 
 client.login(process.env.DISCORD_APITOKEN);
