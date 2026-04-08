@@ -31,6 +31,8 @@ const commands = [
     .setDescription('チンチロ'),
 ].map(cmd => cmd.toJSON());
 
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_APITOKEN);
+
 (async () => {
   try {
     await rest.put(
