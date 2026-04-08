@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { REST, Router, SlashCommandBuilder, Client, GatewayIntentBits } = require('discord.js');
 const express = require('express');
 const app = express()
 
@@ -21,6 +21,19 @@ client.on('messageCreate', (message) => {
         message.reply('Bot is working!');
     }
 });
+
+const commands = [
+  new SlashCommandBuilder()
+    .setName('hello')
+    .setDescription('挨拶する')
+].map(cmd => cmd.toJSON());
+
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+
+rest.put(
+  Routes.applicationCommands('YOUR_APP_ID'),
+  { body: commands }
+);
 
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
