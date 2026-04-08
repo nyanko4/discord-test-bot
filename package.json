@@ -1,13 +1,14 @@
 {
   "name": "discord-bot-test",
   "version": "1.0.0",
-  "description": "Simple Discord bot for testing",
+  "description": "",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.14.1",
+    "express": "^5.2.1"
   }
 }
