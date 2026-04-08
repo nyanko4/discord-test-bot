@@ -25,7 +25,10 @@ client.on('messageCreate', (message) => {
 const commands = [
   new SlashCommandBuilder()
     .setName('hello')
-    .setDescription('挨拶する')
+    .setDescription('挨拶する'),
+  new SlashCommandBuilder()
+    .setName('dice')
+    .setDescription('チンチロ'),
 ].map(cmd => cmd.toJSON());
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_APITOKEN);
@@ -41,7 +44,43 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.commandName == 'hello') {
         await interaction.reply('こんにちは！');
     }
+
+    if (interaction.commandName == 'dice') {
+        await diceRoll(interaction);
+    }
 })
+
+function judgeChinchiro(a, b, c) {
+    const arr = [a, b, c].sort((x, y) => x - y);
+
+    if (a === b && b === c) {
+        return { role: "ゾロ目", value: a };
+    }
+
+    if (arr[0] === 1 && arr[1] === 2 && arr[2] === 3) {
+        return { role: "ヒフミ" };
+    }
+
+    if (arr[0] === 4 && arr[1] === 5 && arr[2] === 6) {
+        return { role: "シゴロ" };
+    }
+
+    if (a === b) return { role: "目", value: c };
+    if (a === c) return { role: "目", value: b };
+    if (b === c) return { role: "目", value: a };
+
+    return { role: "役なし" };
+}
+
+async function diceRoll(interaction) {
+    const rolls = Array.from(3, () =>
+        Math.floor(Math.random() * 6) + 1
+    );
+
+    result = judgeChinchiro(rolls[0], rolls[1], rolls[2]);
+    
+    await interaction.reply(result);
+}
 
 client.login(process.env.DISCORD_APITOKEN);
 
