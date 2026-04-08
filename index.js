@@ -16,4 +16,4 @@ client.on('messageCreate', (message) => {
     }
 });
 
-client.login('https://discord.com/api/webhooks/1491403285314404353/2WzRqYzIXLUF2zT4Sq823h8dkyWcTM7OMZTA2P3xx8uKREFc9sjbxAlRVArRXw_a1oAY');
+client.login(process.env.DISCORD_APITOKEN);
