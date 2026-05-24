@@ -93,7 +93,7 @@ async function diceRoll(interaction) {
 
     result = judgeChinchiro(rolls[0], rolls[1], rolls[2]);
     
-    await interaction.reply(
+    await interaction.editReply(
   `出目: ${rolls.join(", ")}\n結果: ${result.role}${result.value ? `（${result.value}）` : ""}`
 );
 }
