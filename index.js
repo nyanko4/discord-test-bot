@@ -85,7 +85,7 @@ function judgeChinchiro(a, b, c) {
 }
 
 async function diceRoll(interaction) {
-    interaction.deferReplay();
+    interaction.deferReply();
     console.log(interaction);
     const rolls = Array.from({ length: 3 }, () =>
         Math.floor(Math.random() * 6) + 1
