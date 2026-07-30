@@ -116,7 +116,7 @@ async function diceRoll(interaction) {
 );
 }
 
-async createStamp(interaction) {
+async function createStamp(interaction) {
   const stampUrl = interaction.options.getString('stamp-url');
   const stampName = interaction.options.getString('stamp-name');
 
@@ -125,7 +125,7 @@ async createStamp(interaction) {
     naem: stampName
   });
 
-  interaction.reply('作成しました');
+  await interaction.reply('作成しました');
 }
 
 client.login(process.env.DISCORD_APITOKEN);
