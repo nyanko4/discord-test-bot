@@ -30,6 +30,19 @@ const commands = [
     .setName('dice')
     .setDescription('チンチロ'),
   new SlashCommandBuilder()
+    .setName('create-emoji')
+    .setDescription('絵文字を作成')
+    .addAttachmentOption((option) => 
+      option
+        .setName('emoji-image')
+        .setDescription('作成する絵文字の画像')
+        .setRequired(true))
+    .addStringOption((option) =>
+      option
+        .setName('emoji-name')
+        .setDescription('作成する絵文字の名前')
+        .setRequired(true))
+  new SlashCommandBuilder()
     .setName('create-stamp')
     .setDescription('スタンプを作成')
     .addAttachmentOption((option) => 
@@ -118,6 +131,23 @@ async function diceRoll(interaction) {
 );
 }
 
+async function createEmoji(interaction) {
+  const emojiUrl = interaction.options.getAttachment('emoji-image').attachment;
+  const emojiName = interaction.options.getString('emoji-name');
+
+  if (!/[\w]+/g.test(emojiName)) {
+    await interaction.reply('絵文字の名前は英数字と_のみ使用可能です');
+    return;
+  };
+
+  await interaction.guild.emojis.create({
+    attachment: emojiUrl,
+    name: emojiName
+  });
+
+  await interaction.reply('作成しました');
+}
+
 async function createStamp(interaction) {
   const stampUrl = interaction.options.getAttachment('stamp-image').attachment;
   const stampName = interaction.options.getString('stamp-name');
@@ -127,9 +157,10 @@ async function createStamp(interaction) {
     return;
   };
 
-  await interaction.guild.emojis.create({
-    attachment: stampUrl,
-    name: stampName
+  await interaction.guild.stickers.create({
+    file: emojiUrl,
+    name: emojiName,
+    tags: 'bot'
   });
 
   await interaction.reply('作成しました');
