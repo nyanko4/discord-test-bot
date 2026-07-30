@@ -126,7 +126,7 @@ async function createStamp(interaction) {
 
   await interaction.guild.emojis.create({
     attachment: stampUrl,
-    naem: stampName
+    name: stampName
   });
 
   await interaction.reply('作成しました');
