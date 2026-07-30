@@ -131,9 +131,15 @@ async function diceRoll(interaction) {
 );
 }
 
+const emojiContentType = ['jpg', 'jpeg', 'gif', 'webp', 'avif'];
+
 async function createEmoji(interaction) {
-  const emojiUrl = interaction.options.getAttachment('emoji-image').attachment;
+  const emojiImage = interaction.options.getAttachment('emoji-image');
   const emojiName = interaction.options.getString('emoji-name');
+
+	if (!emojiImage.contentType.toLowerCase().includes(emojiContentType)) {
+		await interaction.reply('画像形式はjpeg,gif,webp,avifのみ使用可能です');
+	}
 
   if (!/[\w]+/g.test(emojiName)) {
     await interaction.reply('絵文字の名前は英数字と_のみ使用可能です');
@@ -148,9 +154,18 @@ async function createEmoji(interaction) {
   await interaction.reply('作成しました');
 }
 
+const stampContentType = ['png', 'gif'];
+
 async function createStamp(interaction) {
-  const stampUrl = interaction.options.getAttachment('stamp-image').attachment;
+  const stampImage = interaction.options.getAttachment('stamp-image');
   const stampName = interaction.options.getString('stamp-name');
+
+	if (!stampImage.contentType.toLowerCase().includes(stampContentType)) {
+		await interaction.reply('画像形式はpng,gifのみ使用可能です')
+    return;
+  };
+
+  const stampUrl = stampImage.attachment;
 
   if (!/[\w]+/g.test(stampName)) {
     await interaction.reply('スタンプの名前は英数字と_のみ使用可能です');
