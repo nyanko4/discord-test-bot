@@ -41,7 +41,7 @@ const commands = [
       option
         .setName('emoji-name')
         .setDescription('作成する絵文字の名前')
-        .setRequired(true))
+        .setRequired(true)),
   new SlashCommandBuilder()
     .setName('create-stamp')
     .setDescription('スタンプを作成')
