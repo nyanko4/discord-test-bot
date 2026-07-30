@@ -32,10 +32,10 @@ const commands = [
   new SlashCommandBuilder()
     .setName('create-stamp')
     .setDescription('スタンプを作成')
-    .addStringOption((option) => 
+    .addAttachmentOption((option) => 
       option
-        .setName('stamp-url')
-        .setDescription('作成するスタンプのURL')
+        .setName('stamp-image')
+        .setDescription('作成するスタンプの画像')
         .setRequired(true))
     .addStringOption((option) =>
       option
