@@ -119,7 +119,7 @@ async function diceRoll(interaction) {
 }
 
 async function createStamp(interaction) {
-  const stampUrl = interaction.options.getAttachment('stamp-url');
+  const stampUrl = interaction.options.getAttachment('stamp-image');
   const stampName = interaction.options.getString('stamp-name');
 
   console.log(stampUrl);
