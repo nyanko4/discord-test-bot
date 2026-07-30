@@ -117,7 +117,7 @@ async function diceRoll(interaction) {
 }
 
 async function createStamp(interaction) {
-  const stampUrl = interaction.options.getString('stamp-url');
+  const stampUrl = interaction.options.getAttachment('stamp-url');
   const stampName = interaction.options.getString('stamp-name');
 
   await interactino.guild.emojis.create({
