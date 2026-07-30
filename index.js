@@ -66,6 +66,8 @@ rest.put(
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
+  console.log(interaction);
+
   if (interaction.commandName == 'hello') {
     await interaction.reply('こんにちは！');
   }
@@ -120,7 +122,7 @@ async function createStamp(interaction) {
   const stampUrl = interaction.options.getAttachment('stamp-url');
   const stampName = interaction.options.getString('stamp-name');
 
-  await interactino.guild.emojis.create({
+  await interactin.guild.emojis.create({
     attachment: stampUrl,
     naem: stampName
   });
