@@ -29,6 +29,19 @@ const commands = [
   new SlashCommandBuilder()
     .setName('dice')
     .setDescription('チンチロ'),
+  new SlashCommandBuilder()
+    .setName('create-stamp')
+    .setDescription('スタンプを作成')
+    .addStringOption((option) => 
+      option
+        .setName('stamp-url')
+        .setDescription('作成するスタンプのURL')
+        .setRequired(true))
+    .addStringOption((option) =>
+      option
+        .setName('stamp-name')
+        .setDescription('作成するスタンプの名前')
+        .setRequired(true))
 ].map(cmd => cmd.toJSON());
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_APITOKEN);
@@ -51,15 +64,19 @@ rest.put(
 );
 
 client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
+  if (!interaction.isChatInputCommand()) return;
 
-    if (interaction.commandName == 'hello') {
-        await interaction.reply('こんにちは！');
-    }
+  if (interaction.commandName == 'hello') {
+    await interaction.reply('こんにちは！');
+  }
 
-    if (interaction.commandName == 'dice') {
-        await diceRoll(interaction);
-    }
+  if (interaction.commandName == 'dice') {
+    await diceRoll(interaction);
+  }
+
+  if (interaction.commandName == 'create-stamp') {
+    await createStamp(interaction);
+  }
 })
 
 function judgeChinchiro(a, b, c) {
@@ -97,6 +114,18 @@ async function diceRoll(interaction) {
     await interaction.editReply(
   `出目: ${rolls.join(", ")}\n結果: ${result.role}${result.value ? `（${result.value}）` : ""}`
 );
+}
+
+async createStamp(interaction) {
+  const stampUrl = interaction.options.getString('stamp-url');
+  const stampName = interaction.options.getString('stamp-name');
+
+  await interactino.guild.emojis.create({
+    attachment: stampUrl,
+    naem: stampName
+  });
+
+  interaction.reply('作成しました');
 }
 
 client.login(process.env.DISCORD_APITOKEN);
