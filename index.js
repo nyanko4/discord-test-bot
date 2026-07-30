@@ -122,7 +122,10 @@ async function createStamp(interaction) {
   const stampUrl = interaction.options.getAttachment('stamp-image').attachment;
   const stampName = interaction.options.getString('stamp-name');
 
-  console.log(stampUrl);
+  if (!stampName.test(/[\w]+/g)) {
+    await interaction.reply('スタンプの名前は英数字と_のみ使用可能です');
+    return;
+  };
 
   await interaction.guild.emojis.create({
     attachment: stampUrl,
