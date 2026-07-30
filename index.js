@@ -122,7 +122,7 @@ async function createStamp(interaction) {
   const stampUrl = interaction.options.getAttachment('stamp-url');
   const stampName = interaction.options.getString('stamp-name');
 
-  await interactin.guild.emojis.create({
+  await interaction.guild.emojis.create({
     attachment: stampUrl,
     naem: stampName
   });
