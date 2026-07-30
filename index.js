@@ -158,8 +158,8 @@ async function createStamp(interaction) {
   };
 
   await interaction.guild.stickers.create({
-    file: emojiUrl,
-    name: emojiName,
+    file: stampUrl,
+    name: stampName,
     tags: 'bot'
   });
 
