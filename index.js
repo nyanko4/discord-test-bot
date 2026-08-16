@@ -35,6 +35,19 @@ const commands = [
   new SlashCommandBuilder()
     .setName('dice')
     .setDescription('チンチロ'),
+	new SlashCommandBuilder()
+		.setName('create-quote')
+		.setDescription('引用を作成')
+		.addStringOption((option) =>
+			option
+				.setName('content')
+				.setDescription('メッセージ')
+				.setRequired(true))
+		.addUserOption((option) =>
+			option
+				.setName('user')
+				.setDescription('ユーザー')
+				.setRequired(true)),
   new SlashCommandBuilder()
     .setName('create-emoji')
     .setDescription('絵文字を作成')
@@ -98,6 +111,10 @@ client.on('interactionCreate', async (interaction) => {
   if (interaction.commandName == 'create-stamp') {
     await createStamp(interaction);
   }
+
+	if (interaction.commandName == 'create-quote') {
+		await createQuote(interaction);
+	}
 })
 
 function judgeChinchiro(a, b, c) {
@@ -193,6 +210,19 @@ async function createStamp(interaction) {
   });
 
   await interaction.reply('作成しました');
+}
+
+async function createQuote(interaction) {
+	const content = interaction.options.getString('content');
+	const user = interaction.options.getMember('user');
+
+	const message = {
+		content: content,
+		author: user.user,
+	}
+
+	const png = await new MiQ().setFromMessage(message).setTheme({ extends : 'color', text: { weight: 'bold' }, avatar : { shape : 'circle' } }).toBuffer('png');
+	await interaction.reply({files: [new AttachmentBuilder(png, { name: 'quote.png' })], });
 }
 
 client.login(process.env.DISCORD_APITOKEN);
