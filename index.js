@@ -1,4 +1,5 @@
-const { REST, Routes, SlashCommandBuilder, Client, GatewayIntentBits } = require('discord.js');
+const { REST, Routes, SlashCommandBuilder, AttachmentBuilder, Client, GatewayIntentBits } = require('discord.js');
+const { MiQ } = require('makeitaquote');
 const express = require('express');
 const app = express()
 
@@ -14,12 +15,17 @@ client.on('clientReady', () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.on('messageCreate', (message) => {
+client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
     console.log(message)
     if (message.content === '!test') {
         message.reply('Bot is working!');
     }
+
+	if (/quote/g.test(message.content)) {		
+		const png = await new MiQ().setFromMessage(message).toBuffer('png');
+		await message.reply({files: [new AttachmentBuilder(png, { name: 'quote.png' })], });
+	}
 });
 
 const commands = [
