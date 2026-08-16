@@ -23,7 +23,7 @@ client.on('messageCreate', async (message) => {
     }
 
 	if (/quote/g.test(message.content)) {		
-		const png = await new MiQ().setFromMessage(message).setTheme({ extends : 'color', text: { weight: 'bold' } }).toBuffer('png');
+		const png = await new MiQ().setFromMessage(message).setTheme({ extends : 'color', text: { weight: 'bold' }, avatar : { shape : 'circle' } }).toBuffer('png');
 		await message.reply({files: [new AttachmentBuilder(png, { name: 'quote.png' })], });
 	}
 });
