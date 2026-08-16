@@ -137,14 +137,23 @@ async function diceRoll(interaction) {
 );
 }
 
-const emojiContentType = ['jpg', 'jpeg', 'gif', 'webp', 'avif'];
-
 async function createEmoji(interaction) {
   const emojiImage = interaction.options.getAttachment('emoji-image');
   const emojiName = interaction.options.getString('emoji-name');
 
-	if (!emojiImage.contentType.toLowerCase().includes(emojiContentType)) {
+	const emojiContentType = [
+		'image/jpeg',
+		'image/gif',
+		'image/webp',
+		'image/avif'
+	];
+	
+	if (
+		!emojiImage.contentType ||
+		!emojiContentType.includes(emojiImage.contentType.toLowerCase())
+	) {
 		await interaction.reply('画像形式はjpeg,gif,webp,avifのみ使用可能です');
+		return;
 	}
 
   if (!/[\w]+/g.test(emojiName)) {
@@ -160,16 +169,15 @@ async function createEmoji(interaction) {
   await interaction.reply('作成しました');
 }
 
-const stampContentType = ['png', 'gif'];
-
 async function createStamp(interaction) {
   const stampImage = interaction.options.getAttachment('stamp-image');
   const stampName = interaction.options.getString('stamp-name');
 
-	if (!stampImage.contentType.toLowerCase().includes(stampContentType)) {
-		await interaction.reply('画像形式はpng,gifのみ使用可能です')
-    return;
-  };
+	const allowedContentTypes = ["image/png", "image/gif"];
+
+	if (!stampImage?.contentType || !allowedContentTypes.includes(stampImage.contentType.toLowerCase())) {
+	  return "画像形式はpng,gifのみ使用可能です";
+	}
 
   const stampUrl = stampImage.attachment;
 
