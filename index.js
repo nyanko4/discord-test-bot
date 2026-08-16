@@ -23,7 +23,7 @@ client.on('messageCreate', async (message) => {
     }
 
 	if (/quote/g.test(message.content)) {		
-		const png = await new MiQ().setFromMessage(message).setTheme({ extends : 'color', text: { weight: 'bold' }, avatar : { shape : 'circle' } }).toBuffer('png');
+		const png = await new MiQ().setFromMessage(message).setTheme({ extends : 'color', text: { weight: 'bold' } }).toBuffer('png');
 		await message.reply({files: [new AttachmentBuilder(png, { name: 'quote.png' })], });
 	}
 });
@@ -213,6 +213,7 @@ async function createStamp(interaction) {
 }
 
 async function createQuote(interaction) {
+	await interaction.deferReply();
 	const content = interaction.options.getString('content');
 	const user = interaction.options.getMember('user');
 
@@ -221,8 +222,8 @@ async function createQuote(interaction) {
 		author: user.user,
 	}
 
-	const png = await new MiQ().setFromMessage(message).setTheme({ extends : 'color', text: { weight: 'bold' }, avatar : { shape : 'circle' } }).toBuffer('png');
-	await interaction.reply({files: [new AttachmentBuilder(png, { name: 'quote.png' })], });
+	const png = await new MiQ().setFromMessage(message).setTheme({ extends : 'color', text: { weight: 'bold' } }).toBuffer('png');
+	await interaction.editReply({files: [new AttachmentBuilder(png, { name: 'quote.png' })], });
 }
 
 client.login(process.env.DISCORD_APITOKEN);
